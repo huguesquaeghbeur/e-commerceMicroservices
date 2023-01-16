@@ -4,11 +4,38 @@ services:
   catalogdb:
     image: mongo
 
+  cartdb: 
+    image: redis:alpine
+
+  discountdb:
+    image: mysql
+
+  adminer:
+    image: adminer
+
+  portainer:
+    image: portainer/portainer-ce
+
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
     build:
       context: .
       dockerfile: Microservices/Catalog/Catalog.API/Dockerfile
+  
+  cart.api:
+    image: ${DOCKER_REGISTRY-}cartapi
+    build:
+      context: .
+      dockerfile: Microservices/Cart/Cart.API/Dockerfile
+
+  discount.api:
+    image: ${DOCKER_REGISTRY-}discountapi
+    build:
+      context: .
+      dockerfile: Microservices/Discount/Discount.API/Dockerfile
 
 volumes:
   mongo_data:
+  portainer_data:
+  adminer_data:
+
