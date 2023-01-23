@@ -1,4 +1,4 @@
-﻿namespace Discount.API.Models
+﻿namespace Discount.Library.Models
 {
     public class Coupon
     {

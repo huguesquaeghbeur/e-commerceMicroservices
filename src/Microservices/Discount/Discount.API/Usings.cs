@@ -1,5 +1,6 @@
-﻿global using Discount.API.Models;
-global using Discount.API.Interfaces;
+﻿global using Discount.Library.Models;
+global using Discount.Library.Interfaces;
+
 global using Discount.API.Repositories;
 global using Discount.API.Services;
 

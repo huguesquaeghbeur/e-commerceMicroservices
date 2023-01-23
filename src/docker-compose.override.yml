@@ -60,6 +60,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=cartdb:6379"
+      - "GrpcSettings:DiscountUrl=discount.grpc"
     depends_on:
       - cartdb
     ports:
@@ -69,9 +70,22 @@ services:
     container_name: discount.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DatabaseSettings:ConnectionString=server=discountdb;port=3306; user Id=admin; password = MySql!1; database = discountdb;
+      - "DatabaseSettings:ConnectionString=server=discountdb;port=3306; user Id=admin; password = MySql!1; database = discountdb;"
     depends_on:
       - discountdb
     ports:
       - "8002:80"
+
+
+  discount.grpc:
+    container_name: discount.grpc
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=server=discountdb;port=3306; user Id=admin; password = MySql!1; database = discountdb;"
+    depends_on:
+      - discountdb
+    ports:
+      - "8003:80"
+
+
 

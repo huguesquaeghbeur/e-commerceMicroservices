@@ -19,50 +19,48 @@
         {
             int retryAvaibility = retry.Value;
 
-            using (var scope = host.Services.CreateScope())
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+            var configuration = services.GetRequiredService<IConfiguration>();
+            var logger = services.GetRequiredService<ILogger<TContext>>();
+
+            try
             {
-                var services = scope.ServiceProvider;
-                var configuration = services.GetRequiredService<IConfiguration>();
-                var logger = services.GetRequiredService<ILogger<TContext>>();
+                logger.LogInformation("Migrating mysql database!");
+                using var connection = new MySqlConnection(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+                connection.Open();
 
-                try
+                using var command = new MySqlCommand
                 {
-                    logger.LogInformation("Migrating mysql database!");
-                    using var connection = new MySqlConnection(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
-                    connection.Open();
+                    Connection = connection
+                };
 
-                    using var command = new MySqlCommand
-                    {
-                        Connection = connection
-                    };
+                command.CommandText = "DROP TABLE IF EXISTS coupon";
+                command.ExecuteNonQuery();
 
-                    command.CommandText = "DROP TABLE IF EXISTS coupon";
-                    command.ExecuteNonQuery();
+                command.CommandText = "CREATE TABLE coupon (id SERIAL PRIMARY KEY, productname VARCHAR(24) NOT NULL, description TEXT, amount INT)";
+                command.ExecuteNonQuery();
 
-                    command.CommandText = "CREATE TABLE coupon (id SERIAL PRIMARY KEY, productname VARCHAR(24) NOT NULL, description TEXT, amount INT)";
-                    command.ExecuteNonQuery();
+                command.CommandText = "INSERT INTO coupon (productname, description, amount) VALUES ('IPhone X', 'IPhone discount', 150)";
+                command.ExecuteNonQuery();
 
-                    command.CommandText = "INSERT INTO coupon (productname, description, amount) VALUES ('IPhone X', 'IPhone discount', 150)";
-                    command.ExecuteNonQuery();
+                command.CommandText = "INSERT INTO coupon (productname, description, amount) VALUES ('Samsung 10', 'Samsung discount', 100)";
+                command.ExecuteNonQuery();
 
-                    command.CommandText = "INSERT INTO coupon (productname, description, amount) VALUES ('SAmsung', 'Samsung discount', 100)";
-                    command.ExecuteNonQuery();
-
-                    logger.LogInformation("Migration succeded ");
-                }
-                catch (MySqlException excep)
-                {
-                    logger.LogError(excep, "An error occured");
-
-                    if (retryAvaibility < 50)
-                    {
-                        retryAvaibility++;
-                        Thread.Sleep(2000);
-                        MigrateDatabase<TContext>(host, retryAvaibility);
-                    }
-                }
-                return host;
+                logger.LogInformation("Migration succeded ");
             }
+            catch (MySqlException excep)
+            {
+                logger.LogError(excep, "An error occured");
+
+                if (retryAvaibility < 50)
+                {
+                    retryAvaibility++;
+                    Thread.Sleep(2000);
+                    MigrateDatabase<TContext>(host, retryAvaibility);
+                }
+            }
+            return host;
         }
     }
 }

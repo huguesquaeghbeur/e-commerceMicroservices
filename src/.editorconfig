@@ -78,6 +78,9 @@ dotnet_diagnostic.CS8602.severity = none
 # CS8629: Le type valeur Nullable peut avoir une valeur null.
 dotnet_diagnostic.CS8629.severity = none
 
+# CS0436: Le type est en conflit avec le type importé
+dotnet_diagnostic.CS0436.severity = none
+
 [*.vb]
 #### Styles de nommage ####
 

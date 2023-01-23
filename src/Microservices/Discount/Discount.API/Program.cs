@@ -25,6 +25,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Migration et initialisation de la db Mysql => voir services/extension
 app.MigrateDatabase<Program>();
 
 app.Run();

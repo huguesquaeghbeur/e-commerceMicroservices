@@ -1,4 +1,4 @@
-﻿namespace Discount.API.Interfaces
+﻿namespace Discount.Library.Interfaces
 {
     public interface IDiscountRepository
     {
