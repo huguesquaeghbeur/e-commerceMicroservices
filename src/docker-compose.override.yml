@@ -25,6 +25,16 @@ services:
     restart: always
     ports:
       - "3306:3306"
+  
+  orderdb:
+    container_name: orderdb
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=SqlServer!1
+      - MSSQL_PID=Developer
+    restart: always
+    ports:
+      - "1433:1433"
    
   adminer:
     container_name: adminer
@@ -45,6 +55,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
 
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
   catalog.api:
     container_name: catalog.api
     environment:
@@ -61,8 +78,10 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=cartdb:6379"
       - "GrpcSettings:DiscountUrl=discount.grpc"
+      #- "EventBusSettings:HostAddress=rabbitmq://guest:guest@rabbitmq:5672"
     depends_on:
       - cartdb
+      #- rabbitmq
     ports:
       - "8001:80"
 
@@ -87,5 +106,13 @@ services:
     ports:
       - "8003:80"
 
-
+  order.api:
+    container_name: order.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:OrderConnectionString=Server=orderdb;Database=orderdb;User Id=sa;Password=SqlServer!1;TrustServerCertificate = True;"
+    depends_on: 
+      - orderdb
+    ports:
+      - "8004:80"
 

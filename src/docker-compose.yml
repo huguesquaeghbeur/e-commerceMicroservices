@@ -10,11 +10,17 @@ services:
   discountdb:
     image: mysql
 
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
   adminer:
     image: adminer
 
   portainer:
     image: portainer/portainer-ce
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
 
   catalog.api:
     image: ${DOCKER_REGISTRY-}catalogapi
@@ -40,9 +46,16 @@ services:
       context: .
       dockerfile: Microservices/Discount/Discount.Grpc/Dockerfile
 
+  order.api:
+    image: ${DOCKER_REGISTRY-}orderapi
+    build:
+      context: .
+      dockerfile: Microservices/Order/Order.API/Dockerfile
+
 volumes:
   mongo_data:
   portainer_data:
   adminer_data:
+
 
 

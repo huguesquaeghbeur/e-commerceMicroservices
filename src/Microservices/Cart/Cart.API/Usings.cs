@@ -13,3 +13,5 @@ global using Newtonsoft.Json;
 
 global using Microsoft.AspNetCore.Cors;
 global using Microsoft.AspNetCore.Mvc;
+
+global using MassTransit;

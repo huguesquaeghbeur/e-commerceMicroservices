@@ -2,26 +2,24 @@ var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
 // Add services to the container.
+
 builder.Services.AddControllers();
 builder.Services.AddOurServices();
-// Redis
-builder.Services.AddStackExchangeRedisCache(options =>
+
+builder.Services.AddApplicationServices();
+builder.Services.AddInfrastructureServices();
+// DB config
+builder.Services.AddDbContext<OrderContext>(options =>
 {
-    options.Configuration = config.GetValue<string>("CacheSettings:ConnectionString");
+    options.UseSqlServer(config.GetConnectionString("OrderConnectionString"));
 });
-// Server Grpc
-builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+// SendGrid (email) config
+builder.Services.Configure<EmailSettings>(c =>
 {
-    options.Address = new Uri(config["GrpcSettings:DiscountUrl"]);
+    config.GetSection("EmailSettings");
 });
-// Mass Transit
-//builder.Services.AddMassTransit(options =>
-//{
-//    options.UsingRabbitMq((context, cfg) =>
-//    {
-//        cfg.Host(config["EventBusSettings:HostAddress"]);
-//    });
-//});
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -34,6 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseRouting();
 
 app.UseCors();
@@ -41,5 +40,13 @@ app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.MigrateDatabase<OrderContext>((context, services) =>
+//{
+//    var log = services.GetService<ILogger<OrderContextSeed>>();
+//    OrderContextSeed
+//        .SeedAsync(context, log)
+//        .Wait();
+//});
 
 app.Run();

@@ -81,6 +81,21 @@ dotnet_diagnostic.CS8629.severity = none
 # CS0436: Le type est en conflit avec le type importé
 dotnet_diagnostic.CS0436.severity = none
 
+# CS8765: La nullabilité de type du paramètre ne correspond pas au membre substitué (probablement en raison des attributs de nullabilité).
+dotnet_diagnostic.CS8765.severity = none
+
+# CS8604: Existence possible d'un argument de référence null.
+dotnet_diagnostic.CS8604.severity = none
+
+# CS8625: Impossible de convertir un littéral ayant une valeur null en type référence non-nullable.
+dotnet_diagnostic.CS8625.severity = none
+
+# CA1848: Utiliser les délégués LoggerMessage
+dotnet_diagnostic.CA1848.severity = none
+
+# CA2254: Le modèle doit être une expression statique.
+dotnet_diagnostic.CA2254.severity = none
+
 [*.vb]
 #### Styles de nommage ####
 
@@ -133,3 +148,6 @@ dotnet_naming_style.casse_pascal.capitalization = pascal_case
 dotnet_style_readonly_field = true:suggestion
 tab_width = 4
 indent_size = 4
+
+# IDE0060: Supprimer le paramètre inutilisé
+dotnet_diagnostic.IDE0060.severity = none
