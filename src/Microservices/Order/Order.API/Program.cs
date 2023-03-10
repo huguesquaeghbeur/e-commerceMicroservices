@@ -18,6 +18,21 @@ builder.Services.Configure<EmailSettings>(c =>
 {
     config.GetSection("EmailSettings");
 });
+// MassTransit
+builder.Services.AddMassTransit(options =>
+{
+    options.AddConsumer<CartCheckoutConsumer>();
+
+    options.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(config["EventBusSettings:HostAddress"]);
+        cfg.ReceiveEndpoint(EventBusConstants.CartCheckoutQueue, c =>
+        {
+            c.ConfigureConsumer<CartCheckoutConsumer>(context);
+        });
+    });
+
+});
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -40,13 +55,5 @@ app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
-
-//app.MigrateDatabase<OrderContext>((context, services) =>
-//{
-//    var log = services.GetService<ILogger<OrderContextSeed>>();
-//    OrderContextSeed
-//        .SeedAsync(context, log)
-//        .Wait();
-//});
 
 app.Run();

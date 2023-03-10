@@ -15,3 +15,7 @@ global using Microsoft.AspNetCore.Cors;
 global using Microsoft.AspNetCore.Mvc;
 
 global using MassTransit;
+
+global using AutoMapper;
+
+global using EventBus.Messages.Events;

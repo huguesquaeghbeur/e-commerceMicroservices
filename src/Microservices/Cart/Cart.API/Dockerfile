@@ -7,6 +7,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Microservices/Cart/Cart.API/Cart.API.csproj", "Microservices/Cart/Cart.API/"]
+COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]
 RUN dotnet restore "Microservices/Cart/Cart.API/Cart.API.csproj"
 COPY . .
 WORKDIR "/src/Microservices/Cart/Cart.API"

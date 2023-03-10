@@ -14,6 +14,9 @@
             services.AddApplicationServices();
             services.AddInfrastructureServices();
 
+            services.AddAutoMapper(typeof(Program));
+            services.AddScoped<CartCheckoutConsumer>();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("allconnections", builder =>

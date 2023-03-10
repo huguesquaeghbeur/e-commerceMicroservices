@@ -77,11 +77,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "CacheSettings:ConnectionString=cartdb:6379"
-      - "GrpcSettings:DiscountUrl=discount.grpc"
-      #- "EventBusSettings:HostAddress=rabbitmq://guest:guest@rabbitmq:5672"
+      - "GrpcSettings:DiscountUrl=http://discount.grpc"
+      - "EventBusSettings:HostAddress=rabbitmq://guest:guest@rabbitmq:5672"
     depends_on:
       - cartdb
-      #- rabbitmq
+      - rabbitmq
     ports:
       - "8001:80"
 
@@ -111,8 +111,10 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - "ConnectionStrings:OrderConnectionString=Server=orderdb;Database=orderdb;User Id=sa;Password=SqlServer!1;TrustServerCertificate = True;"
+      - "EventBusSettings:HostAddress=rabbitmq://guest:guest@rabbitmq:5672"
     depends_on: 
       - orderdb
+      - rabbitmq
     ports:
       - "8004:80"
 
