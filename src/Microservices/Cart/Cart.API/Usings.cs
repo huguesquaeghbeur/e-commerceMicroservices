@@ -19,3 +19,5 @@ global using MassTransit;
 global using AutoMapper;
 
 global using EventBus.Messages.Events;
+
+global using System.Net;

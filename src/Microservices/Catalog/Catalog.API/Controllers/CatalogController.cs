@@ -27,7 +27,7 @@
             }
             return Ok(product);
         }
-        [Route("[action]/{category}", Name = "GetProductByCategory")]
+        [Route("bycat/{category}", Name = "bycat")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductByCategory(string category)
         {

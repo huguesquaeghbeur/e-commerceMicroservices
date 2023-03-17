@@ -18,6 +18,7 @@
         }
 
         [HttpGet("{userName}", Name = "getcart")]
+        [ProducesResponseType(typeof(CartShopping), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<CartShopping>> GetCart(string userName)
         {
             var cart = await _cartRepository.GetCart(userName);
@@ -25,6 +26,7 @@
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(CartShopping), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<CartShopping>> UpdateCart([FromBody] CartShopping cart)
         {
             //Consommer DiscountConsumer
@@ -37,14 +39,17 @@
         }
 
         [HttpDelete("{userName}", Name = "deletebasket")]
+        [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteCart(string userName)
         {
             await _cartRepository.DeleteCart(userName);
             return Ok();
         }
 
-        [Route("[action]")]
+        [Route("checkout")]
         [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.Accepted)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Checkout([FromBody] CartCheckout cartCheckout)
         {
             var cart = await _cartRepository.GetCart(cartCheckout.UserName);
@@ -60,7 +65,7 @@
 
             await _cartRepository.DeleteCart(cart.UserName);
 
-            return Ok();
+            return Accepted();
         }
 
     }

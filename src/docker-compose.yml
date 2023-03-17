@@ -52,10 +52,24 @@ services:
       context: .
       dockerfile: Microservices/Order/Order.API/Dockerfile
 
+  ocelotgateway:
+    image: ${DOCKER_REGISTRY-}ocelotgateway
+    build:
+      context: .
+      dockerfile: Gateways/OcelotGateway/Dockerfile
+
+  shop.aggregator:
+    image: ${DOCKER_REGISTRY-}shopaggregator
+    build:
+      context: .
+      dockerfile: Gateways/Shop.Aggregator/Dockerfile
+
 volumes:
   mongo_data:
   portainer_data:
   adminer_data:
+
+
 
 
 
