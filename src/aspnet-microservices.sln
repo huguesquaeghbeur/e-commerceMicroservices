@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotGateway", "Gateways\O
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Aggregator", "Gateways\Shop.Aggregator\Shop.Aggregator.csproj", "{C25A0A8B-E1F6-4EF7-9C55-C8CAFA42280B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{83206AA9-2748-440F-9D32-665DAA39288A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
