@@ -35,6 +35,18 @@ services:
     restart: always
     ports:
       - "1433:1433"
+
+  userdb:
+    container_name: userdb
+    environment:
+      - POSTGRES_PASSWORD=PostgresSql!1
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=clientdb
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data/
    
   adminer:
     container_name: adminer
@@ -118,6 +130,16 @@ services:
     ports:
       - "8004:80"
 
+  user.api:
+    container_name: user.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings:ClientDataContext=server=userdb;port=5432; user Id=postgres; password = PostgresSql!1; database = clientdb;"
+    depends_on:
+      - userdb
+    ports:
+      - "8006:80"
+
 
   ocelotgateway:
     container_name: ocelotgateway
@@ -128,6 +150,7 @@ services:
       - cart.api
       - discount.api
       - order.api
+      - user.api
     ports:
       - "8010:80"
 
@@ -144,4 +167,18 @@ services:
       - order.api
     ports:
       - "8005:80"
+
+  web.client:
+    container_name: web.client
+    environment:
+      - ".env.production.local:REACT_APP_BASE_URL=http://ocelotgateway:8010"
+    depends_on:
+      - ocelotgateway
+    ports: 
+      - "3000:80"
+    
+
+
+
+  
 

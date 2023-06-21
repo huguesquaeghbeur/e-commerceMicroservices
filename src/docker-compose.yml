@@ -13,6 +13,9 @@ services:
   orderdb:
     image: mcr.microsoft.com/mssql/server:2022-latest
 
+  userdb:
+    image: postgres
+
   adminer:
     image: adminer
 
@@ -52,6 +55,12 @@ services:
       context: .
       dockerfile: Microservices/Order/Order.API/Dockerfile
 
+  user.api:
+    image: ${DOCKER_REGISTRY-}userapi
+    build:
+      context: .
+      dockerfile: Microservices/User/User.API/Dockerfile
+
   ocelotgateway:
     image: ${DOCKER_REGISTRY-}ocelotgateway
     build:
@@ -64,10 +73,19 @@ services:
       context: .
       dockerfile: Gateways/Shop.Aggregator/Dockerfile
 
+  # pour le front préciser path du context
+  web.client:
+    build: 
+      context: ./WebApp/web
+      dockerfile: Dockerfile
+
 volumes:
   mongo_data:
   portainer_data:
   adminer_data:
+  postgres_data:
+
+
 
 
 

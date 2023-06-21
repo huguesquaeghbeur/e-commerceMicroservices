@@ -1,6 +1,4 @@
-﻿
-
-namespace Order.Infrastructure.Persistence
+﻿namespace Order.Infrastructure.Persistence
 {
     public class OrderContextSeed
     {
