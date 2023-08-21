@@ -74,10 +74,10 @@ services:
       dockerfile: Gateways/Shop.Aggregator/Dockerfile
 
   # pour le front préciser path du context
-  web.client:
-    build: 
-      context: ./WebApp/web
-      dockerfile: Dockerfile
+  # web.client:
+  #   build: 
+  #     context: ./WebApp/web
+  #     dockerfile: Dockerfile
 
 volumes:
   mongo_data:

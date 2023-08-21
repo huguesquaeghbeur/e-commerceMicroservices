@@ -13,9 +13,9 @@
             return await _clientContext.Clients.ToListAsync();
         }
 
-        public async Task<Client> GetClientByName(string userName)
+        public async Task<Client> GetClientByEmail(string email)
         {
-            return await _clientContext.Clients.FirstOrDefaultAsync(c => c.UserName == userName);
+            return await _clientContext.Clients.FirstOrDefaultAsync(c => c.Email == email);
         }
 
         public Client SearchOne(Expression<Func<Client, bool>> searchMethode)

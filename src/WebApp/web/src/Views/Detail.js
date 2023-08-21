@@ -19,19 +19,19 @@ const Detail = (props) => {
     if (!detailProduct) return null;
 
     return (
-        <section className='grid grid-cols-2 min-h-screen' id='neueFont'>
-            <aside className='col-start-1 col-end-2 m-4 bg-gray-200 h-96 flex items-center '>
-                <img className='shadow-lg shadow-gray-800 mx-auto' src={detailProduct.imageFile} alt="vue du produit" />
+        <section className='grid grid-cols-2 min-h-screen neueFont mt-10'>
+            <aside className='col-start-1 col-end-2 m-4 bg-gray-200 h-96 flex items-center shadow-lg shadow-gray-800'>
+                <img className='mx-auto h-80' src={detailProduct.imageFile} alt="vue du produit" />
             </aside>
             <article className='col-start-2 col-end-3 m-4'>
-                <div className='font-bold text-xl' id='romanFont'>{detailProduct.name}</div>
+                <div className='font-bold text-xl romanFont' >{detailProduct.name}</div>
                 <form action="" method="post">
                     <label htmlFor="quantity">Quantité</label><br />
-                    <input type="number" name="quantity" className='w-1/2 h-8 rounded-sm focus:border-2 focus:border-black'/>
-                    <div className='font-semibold text-xl'>€ {detailProduct.price} EUR</div>
+                    <input type="number" name="quantity" className='w-1/2 h-8 rounded-sm border-2 border-gray-200 focus:border-2 focus:border-black'/>
+                    <div className='font-semibold text-xl romanFont'>€ {detailProduct.price} EUR</div>
                     <div>Expédition Gratuite</div>
                     <button className='w-full h-10 bg-black text-white rounded'>
-                        <p>Ajouter au panier  <FontAwesomeIcon icon={faCartShopping} className='text-base'/>
+                        <p><FontAwesomeIcon icon={faCartShopping} className='text-base mr-2'/>Ajouter au panier  
                         </p>
                     </button>
                 </form>

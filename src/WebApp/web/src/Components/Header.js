@@ -6,16 +6,16 @@ import { faPaperPlane, faCartShopping, faUser } from '@fortawesome/free-solid-sv
 
 const Header = () => {
     return (
-        <header className='grid grid-cols-12 gap-4 h-8 bg-black text-white text-center content-center text-xs font-semibold tracking-widest' id='neueFont'>
+        <header className='grid grid-cols-12 gap-4 h-8 bg-black text-white text-center content-center text-xs font-semibold tracking-widest neueFont'>
             <div className='col-start-4 col-end-10' >
                 <p>
-                    <FontAwesomeIcon icon={faPaperPlane} className='text-base' />  EXPÉDITION GRATUITE
+                    <FontAwesomeIcon icon={faPaperPlane} className='text-base mr-2' />  EXPÉDITION GRATUITE
                 </p>
             </div>
             <div className='col-start-10 col-end-12'>
-                <Link to='/'>
+                <Link to='/client'>
                     <p>
-                        <FontAwesomeIcon icon={faUser} className='text-base' /> MON COMPTE
+                        <FontAwesomeIcon icon={faUser} className='text-base mr-2' /> MON COMPTE
                     </p>
                 </Link>
             </div>

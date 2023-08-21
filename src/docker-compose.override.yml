@@ -168,14 +168,19 @@ services:
     ports:
       - "8005:80"
 
-  web.client:
-    container_name: web.client
-    environment:
-      - ".env.production.local:REACT_APP_BASE_URL=http://ocelotgateway:8010"
-    depends_on:
-      - ocelotgateway
-    ports: 
-      - "3000:80"
+  # web.client:
+  #   container_name: web.client
+  #   environment:
+  #     REACT_APP_BASE_URL: http://ocelotgateway
+  #   depends_on:
+  #     - ocelotgateway
+  #     - catalog.api
+  #     - cart.api
+  #     - discount.api
+  #     - order.api
+  #     - user.api
+  #   ports: 
+  #     - "3000:80"
     
 
 

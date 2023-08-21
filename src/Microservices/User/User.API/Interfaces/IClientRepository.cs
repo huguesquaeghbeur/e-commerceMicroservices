@@ -3,7 +3,7 @@
     public interface IClientRepository<T>
     {
         Task<IEnumerable<Client>> GetClients();
-        Task<Client> GetClientByName(string userName);
+        Task<Client> GetClientByEmail(string email);
         T SearchOne(Expression<Func<T, bool>> searchMethode);
         Task<bool> CreateClient(Client client);
         Task<bool> UpdateClient(Client client);

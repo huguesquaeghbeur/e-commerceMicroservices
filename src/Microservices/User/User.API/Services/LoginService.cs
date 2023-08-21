@@ -9,16 +9,16 @@
             _clientRepository = clientRepository;
         }
 
-        public string GenerateToken(string userName, string password)
+        public string GenerateToken(string email, string password)
         {
             //Verification dans la base de données de l'email et mot de passe
-            Client c = _clientRepository.SearchOne(c => c.UserName == userName && c.Password == password);
+            Client c = _clientRepository.SearchOne(c => c.Email == email && c.Password == password);
             if (c != null)
             {
                 //Données à stocker dans le token
                 List<Claim> claims = new()
                 {
-                    new Claim(ClaimTypes.Name, c.UserName),
+                    new Claim(ClaimTypes.Name, c.FirstName),
                     new Claim(ClaimTypes.Email, c.Email ),
                     new Claim(ClaimTypes.Role, "admin"),
                 };

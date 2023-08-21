@@ -27,7 +27,7 @@
         public async Task<IEnumerable<Product>> GetProductByCategory(string category)
         {
             FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Category, category);
-            return await _catalogContext.Products.Find(filter).ToListAsync();
+            return await _catalogContext.Products.Find(filter).Sort(category).ToListAsync();
         }
 
         public async Task CreateProduct(Product product)

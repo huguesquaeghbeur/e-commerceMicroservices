@@ -10,6 +10,7 @@
         {
             _productRepository = productRepository;
         }
+
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Product>), 200)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
@@ -17,6 +18,7 @@
             var products = await _productRepository.GetProducts();
             return Ok(products);
         }
+
         [HttpGet("{id:length(24)}", Name = "GetProduct")]
         public async Task<ActionResult<Product>> GetProductById(string id)
         {
@@ -27,6 +29,7 @@
             }
             return Ok(product);
         }
+
         [Route("bycat/{category}", Name = "bycat")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductByCategory(string category)
@@ -34,17 +37,20 @@
             var products = await _productRepository.GetProductByCategory(category);
             return Ok(products);
         }
+
         [HttpPost]
         public async Task<ActionResult<Product>> CreateProduct([FromBody] Product product)
         {
             await _productRepository.CreateProduct(product);
             return CreatedAtRoute("GetProduct", new { id = product.Id, Message = "Produit ajouté" }, product);
         }
+
         [HttpPut]
         public async Task<IActionResult> Updateproduct([FromBody] Product  product)
         {
             return Ok(await _productRepository.UpdateProduct(product));
         }
+
         [HttpDelete("{id:length(24)}", Name = "DeleteProduct")]
         public async Task<IActionResult> DeleteProduct(string id)
         {

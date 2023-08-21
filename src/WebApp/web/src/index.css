@@ -19,10 +19,10 @@
 
 }
 
-#neueFont {
+.neueFont {
     font-family: 'helvetica_neueregular';
 }
 
-#romanFont {
+.romanFont {
     font-family: 'helveticaroman';
 }

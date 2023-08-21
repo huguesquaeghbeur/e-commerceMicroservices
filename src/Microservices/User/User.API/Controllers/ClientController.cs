@@ -1,6 +1,6 @@
 ﻿namespace User.API.Controllers
 {
-    [EnableCors("specialOrigin")]
+    [EnableCors("allConnections")]
     [Route("api/v1/client")]
     public class ClientController : Controller
     {
@@ -15,6 +15,7 @@
             _loginService = loginService;
         }
 
+
         [Authorize(Policy = "admin")]
         [HttpGet]
         public async Task<ActionResult> GetAllClients()
@@ -23,17 +24,17 @@
         }
 
         [Authorize(Policy = "admin")]
-        [HttpGet("{userName}")]
-        public async Task<ActionResult> GetClient(string userName)
+        [HttpGet("{email}")]
+        public async Task<ActionResult> GetClient(string email)
         {
-            return Ok(await _clientRepository.GetClientByName(userName));
+            return Ok(await _clientRepository.GetClientByEmail(email));
         }
 
         [Route("login")]
         [HttpPost]
-        public async Task<IActionResult> Login([FromForm] string userName, [FromForm] string password)
+        public async Task<IActionResult> Login([FromForm] string email, [FromForm] string password)
         {
-            string token = _loginService.GenerateToken(userName, password);
+            string token = _loginService.GenerateToken(email, password);
             if (token != null)
             {
                 return Ok(new { Token = token });
@@ -43,11 +44,12 @@
 
         [Route("signin")]
         [HttpPost]
-        public async Task<IActionResult> Signin([FromForm] string userName, [FromForm] string password, [FromForm] string email, [FromForm] bool isAdmin)
+        public async Task<IActionResult> Signin([FromForm] string firstName, [FromForm] string lastName, [FromForm] string password, [FromForm] string email, [FromForm] bool isAdmin)
         {
             Client client = new()
             {
-                UserName = userName,
+                FirstName = firstName,
+                LastName = lastName,
                 Password = password,
                 Email = email,
                 IsAdmin = isAdmin
@@ -58,22 +60,25 @@
             {
                 return Ok(new { Message = "Erreur" });
             }
-            string token = _loginService.GenerateToken(client.UserName, client.Password);
+            string token = _loginService.GenerateToken(client.Email, client.Password);
             if (token != null)
             {
                 return Ok(new { Client = client, Token = token });
             }
-            return NotFound();
+            return NotFound(new { Message = "ça à foirè" });
         }
 
+
+
         [Authorize(Policy = "admin")]
-        [HttpPut("{userName}")]
-        public async Task<IActionResult> PutClient(string userName, [FromForm] Client newClient)
+        [HttpPut("{email}")]
+        public async Task<IActionResult> PutClient(string email, [FromForm] Client newClient)
         {
-            Client client = await _clientContext.Clients.FirstOrDefaultAsync(c => c.UserName == userName);
+            Client client = await _clientContext.Clients.FirstOrDefaultAsync(c => c.Email == email);
             if (client != null)
             {
-                client.UserName = newClient.UserName ?? client.UserName;
+                client.FirstName = newClient.FirstName ?? client.FirstName;
+                client.LastName = newClient.LastName ?? client.LastName;
                 client.Password = newClient.Password ?? client.Password;
                 client.Email = newClient.Email ?? client.Email;
                 client.IsAdmin = newClient.IsAdmin;
@@ -88,10 +93,10 @@
         }
 
         [Authorize(Policy = "admin")]
-        [HttpDelete("{userName}")]
-        public async Task<IActionResult> RemoveClient(string userName)
+        [HttpDelete("{email}")]
+        public async Task<IActionResult> RemoveClient(string email)
         {
-            Client client = await _clientContext.Clients.FirstOrDefaultAsync(c => c.UserName == userName);
+            Client client = await _clientContext.Clients.FirstOrDefaultAsync(c => c.Email == email);
             if (client != null)
             {
                 _clientContext.Remove(client);

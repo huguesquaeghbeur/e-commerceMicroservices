@@ -12,7 +12,11 @@
             {
                 options.AddPolicy("specialOrigin", builder =>
                 {
-                    builder.WithMethods("GET", "POST", "UPDATE", "DELETE").WithOrigins("http://localhost:3000");
+                    builder.WithMethods("GET", "UPDATE", "DELETE").WithOrigins("http://localhost:3000");
+                });
+                options.AddPolicy("allConnections", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
 
