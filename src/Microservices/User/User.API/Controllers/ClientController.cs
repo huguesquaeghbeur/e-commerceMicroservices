@@ -58,14 +58,14 @@
             await _clientRepository.CreateClient(client);
             if (_clientContext.SaveChanges() > 0)
             {
-                return Ok(new { Message = "Erreur" });
+                string token = _loginService.GenerateToken(client.Email, client.Password);
+                if (token != null)
+                {
+                    return Ok(new { Client = client, Token = token, Message = "Utilisateur créer", status = true });
+                }
+                return NotFound(new { Message = "ça à foirè", status = false });
             }
-            string token = _loginService.GenerateToken(client.Email, client.Password);
-            if (token != null)
-            {
-                return Ok(new { Client = client, Token = token });
-            }
-            return NotFound(new { Message = "ça à foirè" });
+            return Ok(new { Message = "Une erreur s'est produite", status = false });   
         }
 
 

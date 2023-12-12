@@ -17,7 +17,7 @@ import Product from '../Views/Product';
 
 const RoutesWithNavigation = () => {
     return (
-        <BrowserRouter className='h-screen'>
+        <BrowserRouter>
             <Header />
             <Nav />
             <main>

@@ -17,12 +17,12 @@
             _publishEndpoint = publishEndpoint;
         }
 
-        [HttpGet("{userName}", Name = "getcart")]
+        [HttpGet("{email}")]
         [ProducesResponseType(typeof(CartShopping), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<CartShopping>> GetCart(string userName)
+        public async Task<ActionResult<CartShopping>> GetCart(string email)
         {
-            var cart = await _cartRepository.GetCart(userName);
-            return Ok(cart ?? new CartShopping(userName));
+            var cart = await _cartRepository.GetCart(email);
+            return Ok(cart ?? new CartShopping(email));
         }
 
         [HttpPost]
@@ -38,11 +38,11 @@
             return Ok(await _cartRepository.UpdateCart(cart));
         }
 
-        [HttpDelete("{userName}", Name = "deletebasket")]
+        [HttpDelete("{email}")]
         [ProducesResponseType(typeof(void), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> DeleteCart(string userName)
+        public async Task<IActionResult> DeleteCart(string email)
         {
-            await _cartRepository.DeleteCart(userName);
+            await _cartRepository.DeleteCart(email);
             return Ok();
         }
 
@@ -52,7 +52,7 @@
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Checkout([FromBody] CartCheckout cartCheckout)
         {
-            var cart = await _cartRepository.GetCart(cartCheckout.UserName);
+            var cart = await _cartRepository.GetCart(cartCheckout.Email);
             if (cart == null)
             {
                 return BadRequest();
@@ -63,7 +63,7 @@
             await _publishEndpoint.Publish(eventMessage);
             //_eventBus.PublishCartCheckout
 
-            await _cartRepository.DeleteCart(cart.UserName);
+            await _cartRepository.DeleteCart(cart.Email);
 
             return Accepted();
         }

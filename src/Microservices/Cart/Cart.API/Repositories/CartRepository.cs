@@ -10,9 +10,9 @@
             _redisCache = redisCache;
         }
 
-        public async Task<CartShopping> GetCart(string userName)
+        public async Task<CartShopping> GetCart(string email)
         {
-            var cart = await _redisCache.GetStringAsync(userName);
+            var cart = await _redisCache.GetStringAsync(email);
             if (cart == null)
             {
                 return null;
@@ -23,14 +23,14 @@
         public async Task<CartShopping> UpdateCart(CartShopping cart)
         {
             // Récupére la clé/valeur de redis
-            await _redisCache.SetStringAsync(cart.UserName, JsonConvert.SerializeObject(cart));
+            await _redisCache.SetStringAsync(cart.Email, JsonConvert.SerializeObject(cart));
             // On envoie la valeur du panier en utilisant la clé
-            return await GetCart(cart.UserName);
+            return await GetCart(cart.Email);
         }
 
-        public async Task DeleteCart(string userName)
+        public async Task DeleteCart(string email)
         {
-            await _redisCache.RemoveAsync(userName);
+            await _redisCache.RemoveAsync(email);
         }
     }
 }

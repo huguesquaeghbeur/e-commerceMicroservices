@@ -8,7 +8,13 @@ module.exports = {
       xs: '0.5rem',
       base: '0.8rem',
     },
-    extend: {},
-  },
+    extend: {
+      transitionDuration: {
+        customDuration: '.5s',
+      },
+      transitionTimingFunction: {
+        customTiming: 'cubic-bezier(.25,.46,.45,.94)',
+      },
+    },
   plugins: [],
-}
+}}

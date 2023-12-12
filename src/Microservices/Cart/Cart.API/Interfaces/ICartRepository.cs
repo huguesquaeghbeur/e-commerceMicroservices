@@ -2,8 +2,8 @@
 {
     public interface ICartRepository
     {
-        Task<CartShopping> GetCart(string UserName);
+        Task<CartShopping> GetCart(string email);
         Task<CartShopping> UpdateCart(CartShopping cart);
-        Task DeleteCart(string UserName);
+        Task DeleteCart(string email);
     }
 }

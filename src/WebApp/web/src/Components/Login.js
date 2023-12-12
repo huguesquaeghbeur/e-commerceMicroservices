@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -10,9 +9,10 @@ import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-const LoginPage = () => {
+const LoginForm = (props) => {
     const [values, setValues] = useState({});
     const [showPassword, setShowPassword] = useState('password');
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
 
     const changePassword = () => {
         if (showPassword === 'password') {
@@ -23,8 +23,8 @@ const LoginPage = () => {
         }
     };
     return (
-        <article className="mt-4 mx-8">
-            <h2 className="border-b-2 border-inherit my-4">CONNEXION</h2>
+        <article className="mt-4 mx-8 ">
+            <h2 className="border-b-2 border-inherit my-4 romanFont">CONNEXION</h2>
             <Formik
                 initialValues={{ email: '', password: '' }}
                 validationSchema={Yup.object({
@@ -32,19 +32,24 @@ const LoginPage = () => {
                         .email('Adresse mail invalide')
                         .required(),
                     password: Yup.string()
-                        .max(25, 'Dois contenir 25 caractéres maximum')
-                        .min(8, 'Dois contenir minimun 8 caractéres')
-                        .required('Ce champ est obligatoire'),
+                        .required('Ce champ est obligatoire')
+                        .min(8, "minimum 8 caractéres")
+                        .matches(regex, "Mot de passe incorrect")
                 })}
                 onSubmit={(data) => {
+                    const formData = new FormData();
+                    formData.append('email', data.email);
+                    formData.append('password', data.password);
+
                     setTimeout(() => {
                         //a supprimé
-                        console.log(JSON.stringify(data));
-                        Login(data)
+                        console.log(data);
+                        Login(formData)
                             .then(response => {
                                 //a supprimé
                                 console.log(response.data);
                                 setValues(response.data);
+                                console.log(values.token);
                                 localStorage.setItem('token', `${values.token}`);
                             })
                             .catch(error => {
@@ -53,7 +58,7 @@ const LoginPage = () => {
                     }, 400);
                 }}
             >
-                <Form id='neueFont'>
+                <Form className='neueFont'>
                     <div className='w-1/2 block'>
                         <label htmlFor='email'>
                             Email
@@ -62,7 +67,7 @@ const LoginPage = () => {
                             name='email'
                             type='email'
                             placeholder='Email'
-                            className='w-full my-4'
+                            className='w-full my-4 border-2 border-gray-200'
                         />
                         <p className='text-red-500 text-xs italic'>
                             <ErrorMessage name='email' />
@@ -74,7 +79,7 @@ const LoginPage = () => {
                             name='password'
                             type={showPassword}
                             placeholder='Mot de passe'
-                            className='w-full my-4'
+                            className='w-full my-4 border-2 border-gray-200'
                         />
                         <span className='relative'>
                             <button type='button'
@@ -86,7 +91,7 @@ const LoginPage = () => {
                         <p className='text-red-500 text-xs italic'>
                             <ErrorMessage name='password' />
                         </p>
-                        <Link to='/client' className='text-sm italic'>Mot de passe oublié?</Link>
+                        <button onClick={props.change} className='text-sm italic'>Mot de passe oublié?</button>
                     </div>
                     <button type='submit' className='w-full h-10 bg-black text-white rounded my-6'><FontAwesomeIcon icon={faLock} className='mr-2' />Se connecter</button>
                 </Form>
@@ -94,4 +99,4 @@ const LoginPage = () => {
         </article>
     )
 }
-export default LoginPage;
+export default LoginForm;

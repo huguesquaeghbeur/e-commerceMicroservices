@@ -43,10 +43,16 @@ const SigninPage = () => {
                                 .required('Ce champ est obligatoire'),
                         })}
                         onSubmit={(data) => {
+                            const formData = new FormData();
+                            formData.append('firstName', data.firstName);
+                            formData.append('lastName', data.lastName);
+                            formData.append('email', data.email);
+                            formData.append('password', data.password);
+
                             setTimeout(() => {
                                 //a supprimé
                                 console.log(JSON.stringify(data));
-                                Signin(data)
+                                Signin(formData)
                                     .then(response => {
                                         //a supprimé
                                         console.log(response.data);
@@ -60,33 +66,37 @@ const SigninPage = () => {
                         }}
                     >
                         <Form className='neueFont'>
-                            <label htmlFor='firstName'>
+                            <label htmlFor='firstName' >
                                 Prénom
+                                <Field
+                                    name='firstName'
+                                    type='text'
+                                    placeholder='Prénom'
+                                    className='w-full my-4 border-2 border-gray-200'
+                                    id='firstName'
+                                    autoComplete='off'
+                                />
                             </label>
-                            <Field
-                                name='firstName'
-                                type='text'
-                                placeholder='Prénom'
-                                className='w-full my-4 border-2 border-gray-200'
-                            />
                             <label htmlFor='lastName'>
                                 Nom
+                                <Field
+                                    name='lastName'
+                                    type='text'
+                                    placeholder='Nom'
+                                    className='w-full my-4 border-2 border-gray-200'
+                                    id='lastName'
+                                />
                             </label>
-                            <Field
-                                name='lastName'
-                                type='text'
-                                placeholder='Nom'
-                                className='w-full my-4 border-2 border-gray-200'
-                            />
                             <label htmlFor='email'>
                                 Email
+                                <Field
+                                    name='email'
+                                    type='email'
+                                    placeholder='Email'
+                                    className='w-full my-4 border-2 border-gray-200'
+                                    id='email'
+                                />
                             </label>
-                            <Field
-                                name='email'
-                                type='email'
-                                placeholder='Email'
-                                className='w-full my-4 border-2 border-gray-200'
-                            />
                             <p className='text-red-500 text-xs italic'>
                                 <ErrorMessage
                                     name='email'
@@ -94,13 +104,14 @@ const SigninPage = () => {
                             </p>
                             <label htmlFor='password' className='mt-4'>
                                 Mot de passe
+                                <Field
+                                    name='password'
+                                    type={showPassword}
+                                    placeholder='Mot de passe'
+                                    className='w-full my-4 border-2 border-gray-200'
+                                    id='password'
+                                />
                             </label>
-                            <Field
-                                name='password'
-                                type={showPassword}
-                                placeholder='Mot de passe'
-                                className='w-full my-4 border-2 border-gray-200'
-                            />
                             <span className='relative'>
                                 <button
                                     type='button'
@@ -117,7 +128,7 @@ const SigninPage = () => {
                     </Formik>
                     <Link to='/catalog'>
                         <p className='text-base neueFont'>
-                            <FontAwesomeIcon icon={faArrowLeft} className='mr-2'/>Retour à la boutique
+                            <FontAwesomeIcon icon={faArrowLeft} className='mr-2' />Retour à la boutique
                         </p>
                     </Link>
                 </article>

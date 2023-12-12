@@ -2,11 +2,11 @@
 {
     public class CartShopping
     {
-        public string UserName { get; set; }
+        public string Email { get; set; }
         public List<CartItem> Items { get; set; } = new List<CartItem>();
-        public CartShopping(string userName)
+        public CartShopping(string email)
         {
-            UserName = userName;
+            Email = email;
         }
 
         public CartShopping()

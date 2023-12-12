@@ -14,8 +14,7 @@ const Detail = (props) => {
             setDetailProduct(response.data)
         });
     }, [props]);
-    console.log(detailProduct);
-
+    
     if (!detailProduct) return null;
 
     return (
@@ -27,7 +26,7 @@ const Detail = (props) => {
                 <div className='font-bold text-xl romanFont' >{detailProduct.name}</div>
                 <form action="" method="post">
                     <label htmlFor="quantity">Quantité</label><br />
-                    <input type="number" name="quantity" className='w-1/2 h-8 rounded-sm border-2 border-gray-200 focus:border-2 focus:border-black'/>
+                    <input type="number" name="quantity" min='0'className='w-1/2 h-8 rounded-sm border-2 border-gray-200 focus:border-2 focus:border-black'/>
                     <div className='font-semibold text-xl romanFont'>€ {detailProduct.price} EUR</div>
                     <div>Expédition Gratuite</div>
                     <button className='w-full h-10 bg-black text-white rounded'>

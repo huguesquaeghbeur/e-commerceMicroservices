@@ -5,7 +5,7 @@ import { faCopyright } from '@fortawesome/free-regular-svg-icons';
 
 const Footer = () => {
     return (
-        <footer className='bg-black text-gray-400 text-center content center text-xs' id='neueFont'>
+        <footer className='bg-black text-gray-400 text-center content center text-xs mb-0' id='neueFont'>
             <p>Copyright 2023 <FontAwesomeIcon icon={faCopyright} /> Hugues</p>
         </footer>
     )
